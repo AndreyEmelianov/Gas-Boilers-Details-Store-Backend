@@ -37,4 +37,10 @@ export class UsersController {
   loginCheck(@Request() req) {
     return req.user;
   }
+
+  @Get('/logout')
+  logout(@Request() req) {
+    req.session.destroy();
+    return { message: 'session has ended' };
+  }
 }
