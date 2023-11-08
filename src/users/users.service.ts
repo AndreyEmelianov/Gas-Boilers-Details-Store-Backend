@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './users.model';
-import { createUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   async create(
-    createUserDto: createUserDto,
+    createUserDto: CreateUserDto,
   ): Promise<User | { warningMessage: string }> {
     const user = new User();
     const existingByUserName = await this.findOne({
