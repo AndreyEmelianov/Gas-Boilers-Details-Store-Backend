@@ -14,12 +14,19 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from '../auth/local.auth.guard';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
-import { LoginUserRequest, LoginUserResponse } from './types';
+import {
+  LoginCheckUserResponse,
+  LoginUserRequest,
+  LoginUserResponse,
+  LogoutUserResponse,
+  SignupUserResponse,
+} from './types';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOkResponse({ type: SignupUserResponse })
   @Post('/signup')
   @HttpCode(HttpStatus.CREATED)
   @Header('Content-Type', 'application/json')
@@ -36,12 +43,14 @@ export class UsersController {
     return { user: req.user, message: 'Logged in' };
   }
 
+  @ApiOkResponse({ type: LoginCheckUserResponse })
   @Get('/login-check')
   @UseGuards(AuthenticatedGuard)
   loginCheck(@Request() req) {
     return req.user;
   }
 
+  @ApiOkResponse({ type: LogoutUserResponse })
   @Get('/logout')
   logout(@Request() req) {
     req.session.destroy();
