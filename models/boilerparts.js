@@ -13,7 +13,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   BoilerParts.init(
     {
+      boiler_manufacturer: DataTypes.STRING,
+      parts_manufacturer: DataTypes.STRING,
+      product_price: DataTypes.INTEGER,
+      vendor_code: DataTypes.STRING,
       product_name: DataTypes.STRING,
+      product_description: DataTypes.STRING,
+      images: DataTypes.STRING,
+      in_stock: DataTypes.INTEGER,
+      bestseller: DataTypes.BOOLEAN,
+      new_product: DataTypes.BOOLEAN,
+      popularity_product: DataTypes.INTEGER,
+      compatibility: DataTypes.STRING,
     },
     {
       sequelize,
