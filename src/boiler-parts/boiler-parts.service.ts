@@ -24,7 +24,7 @@ export class BoilerPartsService {
 
   async bestsellers(): Promise<{ count: number; rows: BoilerParts[] }> {
     return this.boilerPartsModel.findAndCountAll({
-      where: { bestsellers: true },
+      where: { bestseller: true },
     });
   }
 
@@ -34,7 +34,7 @@ export class BoilerPartsService {
     });
   }
 
-  async findOne(id: number): Promise<BoilerParts> {
+  async findOne(id: number | string): Promise<BoilerParts> {
     return this.boilerPartsModel.findOne({
       where: { id },
     });
