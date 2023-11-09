@@ -35,7 +35,7 @@ export class ShoppingCartService {
     cart.in_stock = product.in_stock;
     cart.product_name = product.product_name;
     cart.total_price = product.product_price;
-    cart.image = JSON.stringify(product.images)[0];
+    cart.image = JSON.parse(product.images)[0];
 
     return cart.save();
   }
