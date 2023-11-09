@@ -6,7 +6,7 @@ export class BoilerParts extends Model {
   boiler_manufacturer: string;
 
   @Column
-  part_manufacturer: string;
+  parts_manufacturer: string;
 
   @Column({ defaultValue: 0 })
   product_price: number;
@@ -27,7 +27,7 @@ export class BoilerParts extends Model {
   in_stock: number;
 
   @Column({ defaultValue: false })
-  bestsellers: boolean;
+  bestseller: boolean;
 
   @Column({ defaultValue: false })
   new_product: boolean;
