@@ -11,23 +11,36 @@ import {
 import { ShoppingCartService } from './shopping-cart.service';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { AddToCartDto } from './dto/add-to-cart.dto';
+import { ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import {
+  AddToCardResponse,
+  GetAllResponse,
+  TotalPriceRequest,
+  TotalPriceResponse,
+  UpdateCountRequest,
+  UpdateCountResponse,
+} from './types';
 
 @Controller('shopping-cart')
 export class ShoppingCartController {
   constructor(private readonly shoppingCartService: ShoppingCartService) {}
 
+  @ApiOkResponse({ type: [GetAllResponse] })
   @UseGuards(AuthenticatedGuard)
   @Get(':id')
   getAll(@Param('id') userId: string) {
     return this.shoppingCartService.findAll(userId);
   }
 
+  @ApiOkResponse({ type: AddToCardResponse })
   @UseGuards(AuthenticatedGuard)
   @Post('/add')
   addToCart(@Body() dto: AddToCartDto) {
     return this.shoppingCartService.addToCart(dto);
   }
 
+  @ApiOkResponse({ type: UpdateCountResponse })
+  @ApiBody({ type: UpdateCountRequest })
   @UseGuards(AuthenticatedGuard)
   @Patch('/count/:id')
   updateCount(
@@ -37,6 +50,8 @@ export class ShoppingCartController {
     return this.shoppingCartService.updateCount(count, productId);
   }
 
+  @ApiOkResponse({ type: TotalPriceResponse })
+  @ApiBody({ type: TotalPriceRequest })
   @UseGuards(AuthenticatedGuard)
   @Patch('/total-price/:id')
   updateTotalPrice(
