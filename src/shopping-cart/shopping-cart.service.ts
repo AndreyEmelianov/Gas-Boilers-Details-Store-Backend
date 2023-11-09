@@ -39,4 +39,33 @@ export class ShoppingCartService {
 
     return cart.save();
   }
+
+  async updateCount(
+    count: number,
+    productId: number,
+  ): Promise<{ count: number }> {
+    await this.shoppingCartModel.update({ count }, { where: { productId } });
+
+    const product = await this.shoppingCartModel.findOne({
+      where: { productId },
+    });
+
+    return { count: product.count };
+  }
+
+  async updateTotalPrice(
+    total_price: number,
+    productId: number,
+  ): Promise<{ total_price: number }> {
+    await this.shoppingCartModel.update(
+      { total_price },
+      { where: { productId } },
+    );
+
+    const product = await this.shoppingCartModel.findOne({
+      where: { productId },
+    });
+
+    return { total_price: product.total_price };
+  }
 }
