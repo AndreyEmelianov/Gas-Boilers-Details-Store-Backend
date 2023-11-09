@@ -5,6 +5,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { databaseConfig } from '../../src/config/configuration';
 import { SequelizeConfigService } from '../../src/config/sequelizeConfig.service';
 import { UsersModule } from '../../src/users/users.module';
+import * as bcrypt from 'bcrypt';
+import { User } from 'src/users/users.model';
 
 const mockedUser = {
   username: 'Andrey',
@@ -31,5 +33,19 @@ describe('Users Controller', () => {
 
     app = testModule.createNestApplication();
     await app.init();
+  });
+
+  beforeEach(async () => {
+    const user = new User();
+
+    const hashedPassword = await bcrypt.hash(mockedUser.password, 10);
+
+    user.username = mockedUser.username;
+    user.email = mockedUser.email;
+    user.password = hashedPassword;
+  });
+
+  afterEach(async () => {
+    await User.destroy({ where: { username: mockedUser.username } });
   });
 });
