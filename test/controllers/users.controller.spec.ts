@@ -6,7 +6,8 @@ import { databaseConfig } from '../../src/config/configuration';
 import { SequelizeConfigService } from '../../src/config/sequelizeConfig.service';
 import { UsersModule } from '../../src/users/users.module';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/users/users.model';
+import * as request from 'supertest';
+import { User } from '../../src/users/users.model';
 
 const mockedUser = {
   username: 'Andrey',
@@ -47,5 +48,27 @@ describe('Users Controller', () => {
 
   afterEach(async () => {
     await User.destroy({ where: { username: mockedUser.username } });
+    await User.destroy({ where: { username: 'Test' } });
+  });
+
+  it('should create user', async () => {
+    const newUser = {
+      username: 'Test',
+      email: 'test@gmail.com',
+      password: 'test1234',
+    };
+
+    const response = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send(newUser);
+
+    const passwordIsValid = await bcrypt.compare(
+      newUser.password,
+      response.body.password,
+    );
+
+    expect(response.body.username).toBe(newUser.username);
+    expect(response.body.email).toBe(newUser.email);
+    expect(passwordIsValid).toBe(true);
   });
 });
