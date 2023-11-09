@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -43,5 +44,17 @@ export class ShoppingCartController {
     @Param('id') productId: string,
   ) {
     return this.shoppingCartService.updateTotalPrice(total_price, productId);
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Delete('/product/:id')
+  removeProduct(@Param('id') productId: string) {
+    return this.shoppingCartService.removeProduct(productId);
+  }
+
+  @UseGuards(AuthenticatedGuard)
+  @Delete('/all-products/:id')
+  removeAll(@Param('id') userId: string) {
+    return this.shoppingCartService.removeAll(userId);
   }
 }
