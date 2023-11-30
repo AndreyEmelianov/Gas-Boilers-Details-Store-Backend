@@ -14,7 +14,7 @@ export interface IBoilerPartsQuery {
 export interface IBoilerPartsFilter {
   boiler_manufacturer: string | undefined;
   parts_manufacturer: string | undefined;
-  price: { [Op.between]: number[] };
+  product_price: { [Op.between]: number[] };
 }
 
 class BoilerParts {

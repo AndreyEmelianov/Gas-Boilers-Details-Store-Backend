@@ -19,7 +19,7 @@ export class BoilerPartsService {
     const filter = {} as Partial<IBoilerPartsFilter>;
 
     if (query.priceFrom && query.priceTo) {
-      filter.price = {
+      filter.product_price = {
         [Op.between]: [+query.priceFrom, +query.priceTo],
       };
     }
